@@ -4,13 +4,13 @@
 # the template files for the thesis and also two functions
 # used for labeling and referencing
 if(!require(devtools))
-  install.packages("devtools", repos = "http://cran.rstudio.com")
+  install.packages("devtools", repos = "https://cloud.r-project.org")
 if(!require(dplyr))
-    install.packages("dplyr", repos = "http://cran.rstudio.com")
+    install.packages("dplyr", repos = "https://cloud.r-project.org")
 if(!require(ggplot2))
-    install.packages("ggplot2", repos = "http://cran.rstudio.com")
-if(!require(ggplot2))
-    install.packages("bookdown", repos = "http://cran.rstudio.com")
+    install.packages("ggplot2", repos = "https://cloud.r-project.org")
+if(!require(bookdown))
+    install.packages("bookdown", repos = "https://cloud.r-project.org")
 if(!require(huskydown)){
   library(devtools)
   devtools::install_github("benmarwick/huskydown")
@@ -24,7 +24,7 @@ flights <- read.csv("data/flights.csv")
 
 ## Tables {#tables}
 
-By far the easiest way to present tables in your thesis is to store the contents of the table in a CSV or Excel file, then read that file in to your R Markdown document as a data frame. Then you can style the table with the `kable` function, or functions in the [kableExtra](https://cran.r-project.org/web/packages/kableExtra/index.html) pacakge. 
+By far the easiest way to present tables in your thesis is to store the contents of the table in a CSV or Excel file, then read that file in to your R Markdown document as a data frame. Then you can style the table with the `kable` function, or functions in the [kableExtra](https://cran.r-project.org/web/packages/kableExtra/index.html) package. 
 
 In addition to the tables that can be automatically generated from a data frame in **R** that you saw in [R Markdown Basics] using the `kable` function, you can also create tables using _pandoc_. (More information is available at <http://pandoc.org/README.html#tables>.)  This might be useful if you don't have values specifically stored in **R**, but you'd like to display them in table form.  Below is an example.  Pay careful attention to the alignment in the table and hyphens to create the rows and columns. Generally I don't recommend this approach of typing the table directly into your R Markdown document. 
 
@@ -64,13 +64,13 @@ If you need a graphic or tabular material to be part of the text, you can just p
 -->
 
 
-In the **R** chunk below, we will load in a picture stored as `uw.png` in our main directory.  We then give it the caption of "UW logo", the label of "uwlogo", and specify that this is a figure.  Make note of the different **R** chunk options that are given in the R Markdown file (not shown in the knitted document).
+In the **R** chunk below, we will load in a picture stored as `unl.png` in our figure directory.  We then give it the caption of "UNL logo", the label of "unllogo", and specify that this is a figure.  Make note of the different **R** chunk options that are given in the R Markdown file (not shown in the knitted document).
 
-```{r uwlogo, fig.cap="logo"}
+```{r unllogo, fig.cap="UNL logo"}
 include_graphics(path = "figure/unl.png")
 ```
 
-Here is a reference to the UW logo: Figure \@ref(fig:uwlogo).  Note the use of the `fig:` code here.  By naming the **R** chunk that contains the figure, we can then reference that figure later as done in the first sentence here.  We can also specify the caption for the figure via the R chunk option `fig.cap`.
+Here is a reference to the UNL logo: Figure \@ref(fig:unllogo).  Note the use of the `fig:` code here.  By naming the **R** chunk that contains the figure, we can then reference that figure later as done in the first sentence here.  We can also specify the caption for the figure via the R chunk option `fig.cap`.
 
 \clearpage 
 
@@ -78,7 +78,7 @@ Here is a reference to the UW logo: Figure \@ref(fig:uwlogo).  Note the use of t
 
 Below we will investigate how to save the output of an **R** plot and label it in a way similar to that done above.  Recall the `flights` dataset from Chapter \@ref(rmd-basics).  (Note that we've shown a different way to reference a section or chapter here.)  We will next explore a bar graph with the mean flight departure delays by airline from Portland for 2014.  Note also the use of the `scale` parameter which is discussed on the next page.
 
-```{r delaysboxplot, warnings=FALSE, messages=FALSE, fig.cap="Mean Delays by Airline", fig.width=6}
+```{r delaysboxplot, warning=FALSE, message=FALSE, fig.cap="Mean Delays by Airline", fig.width=6}
 flights %>% group_by(carrier) %>%
   summarize(mean_dep_delay = mean(dep_delay)) %>%
   ggplot(aes(x = carrier, y = mean_dep_delay)) +
@@ -151,5 +151,5 @@ If you look at the YAML header at the top of the main .Rmd file you can see that
 
 ## Anything else?
 
-If you'd like to see examples of other things in this template, please [contact us](https://github.com/benmarwick/huskydown/issues/new) (email <bmarwick@uw.edu>) with your suggestions. We love to see people using _R Markdown_ for their theses, and are happy to help.
+If you'd like to see examples of other things in this template, please [contact us](https://github.com/near-center-unl/UNL-thesisdown-template/issues/new) with your suggestions. We love to see people using _R Markdown_ for their theses, and are happy to help.
 

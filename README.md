@@ -5,12 +5,12 @@
 Template for writing your UNL thesis with bookdown.
 
 **To Use**
-1. Fork this repository to a new Rproject hosted on your computer or download and exctract the repository as a .zip file and create a new Rproject within the folder.
+1. Fork this repository to a new Rproject hosted on your computer or download and extract the repository as a .zip file and create a new Rproject within the folder.
 2. In RStudio, in the Environment/Git window pane, click on the **Build** tab. Then **Build Book.** This will take some time, especially for the first build. Let it go!
-3. Your thesis document can be found in at **_book/thesis.pdf**.
+3. Your thesis document can be found at **docs/thesis.pdf**.
 
-**Debuging Tips**
-+ Make sure your R/RStudio is updated (>= version 3.6.3). When was the last time this was updated?
+**Debugging Tips**
++ Make sure your R/RStudio is updated (>= version 4.0.0).
 + Make sure you have latex/MikTex on your computer. Can you knit a pdf?
 + You may need to follow the initial setup instructions at https://github.com/benmarwick/huskydown.
 

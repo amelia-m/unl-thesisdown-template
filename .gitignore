@@ -10,3 +10,16 @@
 *.synctex.gz
 *.toc
 *.log
+*.aux
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.out
+*.xdv
+*.nav
+*.snm
+*.vrb
+_bookdown_files/
+.DS_Store
+Thumbs.db

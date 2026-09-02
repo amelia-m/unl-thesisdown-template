@@ -117,7 +117,7 @@ new.pkg <- pkg[!(pkg %in% installed.packages())]
 # If there are any packages in the list that aren't installed,
 # install them
 if (length(new.pkg))
-  install.packages(new.pkg, repos = "http://cran.rstudio.com")
+  install.packages(new.pkg, repos = "https://cloud.r-project.org")
 # Load packages (huskydown will load all of the packages as well)
 library(huskydown)
 ```
