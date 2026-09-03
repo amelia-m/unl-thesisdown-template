@@ -4,7 +4,7 @@ The {#rmd-basics} text after the chapter declaration will allow us to link throu
 
 # R Markdown Basics {#rmd-basics}
 
-Here is a brief introduction into using _R Markdown_. _Markdown_ is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. _R Markdown_ provides the flexibility of _Markdown_ with the implementation of **R** input and output.  For more details on using _R Markdown_ see <http://rmarkdown.rstudio.com>.  
+Here is a brief introduction into using _R Markdown_. _Markdown_ is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. _R Markdown_ provides the flexibility of _Markdown_ with the implementation of **R** input and output.  For more details on using _R Markdown_ see <https://rmarkdown.rstudio.com>.  
 
 Be careful with your spacing in _Markdown_ documents.  While whitespace largely is ignored, it does at times give _Markdown_ signals as to how to proceed.  As a habit, try to keep everything left aligned whenever possible, especially as you type a new paragraph.  In other words, there is no need to indent basic text in the Rmd document (in fact, it might cause your text to do funny things if you do).
 
@@ -77,13 +77,13 @@ You can also embed plots.  For example, here is a way to use the base **R** grap
 plot(pressure)
 ```
 
-Note that the `echo=FALSE` parameter was added to the code chunk to prevent printing of the **R** code that generated the plot.  There are plenty of other ways to add chunk options.  More information is available at <http://yihui.name/knitr/options/>.  
+Note that the `echo=FALSE` parameter was added to the code chunk to prevent printing of the **R** code that generated the plot.  There are plenty of other ways to add chunk options.  More information is available at <https://yihui.org/knitr/options/>.  
 
 Another useful chunk option is the setting of `cache=TRUE` as you see here.  If document rendering becomes time consuming due to long computations or plots that are expensive to generate you can use knitr caching to improve performance.  Later in this file, you'll see a way to reference plots created in **R** or external figures.
 
 ## Loading and exploring data
 
-Included in this template is a file called `flights.csv`.  This file includes a subset of the larger dataset of information about all flights that departed from Seattle and Portland in 2014.  More information about this dataset and its **R** package is available at <http://github.com/ismayc/pnwflights14>.  This subset includes only Portland flights and only rows that were complete with no missing values.  Merges were also done with the `airports` and `airlines` data sets in the `pnwflights14` package to get more descriptive airport and airline names.
+Included in this template is a file called `flights.csv`.  This file includes a subset of the larger dataset of information about all flights that departed from Seattle and Portland in 2014.  More information about this dataset and its **R** package is available at <https://github.com/ismayc/pnwflights14>.  This subset includes only Portland flights and only rows that were complete with no missing values.  Merges were also done with the `airports` and `airlines` data sets in the `pnwflights14` package to get more descriptive airport and airline names.
 
 We can load in this data set using the following command:
 
@@ -183,4 +183,4 @@ flights %>%
 
 - Introduction to `dplyr` - <https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html>
 
-- `ggplot2` Documentation - <http://docs.ggplot2.org/current/>
+- `ggplot2` Documentation - <https://ggplot2.tidyverse.org/reference/>
