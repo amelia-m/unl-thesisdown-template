@@ -9,6 +9,31 @@ Template for writing your UNL thesis with bookdown.
 2. In RStudio, in the Environment/Git window pane, click on the **Build** tab. Then **Build Book.** This will take some time, especially for the first build. Let it go!
 3. Your thesis document can be found at **docs/thesis.pdf**.
 
+**To Build Without RStudio**
+
+The **Build Book** button runs `bookdown::render_book()`. You can call it directly
+from an R console or a shell in the project directory:
+
+```r
+# All output formats declared in index.Rmd
+bookdown::render_book("index.Rmd")
+
+# PDF only
+bookdown::render_book("index.Rmd", output_format = "bookdown::pdf_book")
+
+# Preview a single chapter while drafting
+bookdown::preview_chapter("03-chap3.Rmd")
+```
+
+Output is written to `docs/` (set by `output_dir` in `_bookdown.yml`).
+
+**Required R Packages**
+
+`bookdown`, `knitr`, `rmarkdown`, `dplyr`, `ggplot2`, `devtools`, and `huskydown`
+(installed from GitHub with `devtools::install_github("benmarwick/huskydown")`).
+The setup chunks in `index.Rmd` and `03-chap3.Rmd` install anything missing on the
+first build.
+
 **Debugging Tips**
 + Make sure your R/RStudio is updated (>= version 4.0.0).
 + Make sure you have latex/MikTex on your computer. Can you knit a pdf?
