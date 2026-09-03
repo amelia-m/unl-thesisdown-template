@@ -1,11 +1,18 @@
 # Mathematics and Science {#math-sci}
 
 <!-- Required to number equations in HTML files -->
+
+```{r mathjax_config, echo=FALSE, results='asis'}
+if (knitr::is_html_output()) {
+  cat('
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
   TeX: { equationNumbers: { autoNumber: "AMS" } }
 });
 </script>
+')
+}
+```
 
 ## Math
 
