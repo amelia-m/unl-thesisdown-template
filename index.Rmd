@@ -48,6 +48,11 @@ If you receive a duplicate label error after knitting, make sure to delete the i
 
 ```{r setup, include = F}
 options(width = 60)
+# knitr implements tidy = TRUE via formatR::tidy_source(), so
+# formatR must be present before the option below takes effect.
+if(!require(formatR))
+  install.packages("formatR", 
+                   repos = "https://cloud.r-project.org")
 knitr::opts_chunk$set(
   fig.width = 6, fig.height = 4, 
   out.width = "\\linewidth", dpi = 300, 
@@ -62,9 +67,10 @@ knitr::opts_chunk$set(
 if(!require(devtools))
   install.packages("devtools", 
                    repos = "https://cloud.r-project.org")
+# Pinned to huskydown 0.0.5 (2021-03-20)
 if(!require(huskydown))
   devtools::install_github(
-    "benmarwick/huskydown"
+    "benmarwick/huskydown@addb48ee9c6d659109d7e7a0121c71fb6ca06594"
   )
 library(huskydown)
 ```

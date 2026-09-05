@@ -11,9 +11,12 @@ if(!require(ggplot2))
     install.packages("ggplot2", repos = "https://cloud.r-project.org")
 if(!require(bookdown))
     install.packages("bookdown", repos = "https://cloud.r-project.org")
+if(!require(formatR))
+    install.packages("formatR", repos = "https://cloud.r-project.org")
+# Pinned to huskydown 0.0.5 (2021-03-20)
 if(!require(huskydown)){
   library(devtools)
-  devtools::install_github("benmarwick/huskydown")
+  devtools::install_github("benmarwick/huskydown@addb48ee9c6d659109d7e7a0121c71fb6ca06594")
   }
 library(huskydown)
 flights <- read.csv("data/flights.csv")

@@ -29,8 +29,17 @@ Output is written to `docs/` (set by `output_dir` in `_bookdown.yml`).
 
 **Required R Packages**
 
-`bookdown`, `knitr`, `rmarkdown`, `dplyr`, `ggplot2`, `devtools`, and `huskydown`
-(installed from GitHub with `devtools::install_github("benmarwick/huskydown")`).
+`bookdown`, `knitr`, `rmarkdown`, `dplyr`, `ggplot2`, `devtools`, `formatR`, and
+`huskydown`. `formatR` is required because the setup chunk in `index.Rmd` sets
+`tidy = TRUE`, which knitr implements with `formatR::tidy_source()`.
+
+`huskydown` is installed from GitHub and pinned to version 0.0.5 (commit
+`addb48e`, 2021-03-20) so that builds are reproducible:
+
+```r
+devtools::install_github("benmarwick/huskydown@addb48ee9c6d659109d7e7a0121c71fb6ca06594")
+```
+
 The setup chunks in `index.Rmd` and `03-chap3.Rmd` install anything missing on the
 first build.
 
