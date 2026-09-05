@@ -170,9 +170,9 @@ recover well under 1 MB. Not judged worth it.
 
 ## Agent governance
 
-The Clanker Constitution (https://github.com/kenn-io/constitution, release
-`v2026.08.11`) has not been installed. Fetching it was blocked by the sandbox
-permission classifier in this environment. When the file is available, the
-upstream convention is: `CONSTITUTION.md` at the repository root, an
-`AGENTS.md` telling agents to follow it, and `@CONSTITUTION.md` imported from
-`CLAUDE.md`.
+The Clanker Constitution is pinned at release `v2026.08.11` in
+`CONSTITUTION.md`, referenced by `AGENTS.md` and imported by `CLAUDE.md`.
+Upstream advises against fetching it at agent startup, so bumping to a newer
+release should be a deliberate, reviewed change: replace the file from the new
+tag and update the version named in `AGENTS.md` and in this note. Canonical
+source: https://github.com/kenn-io/constitution
