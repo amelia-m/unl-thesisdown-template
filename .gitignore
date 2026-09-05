@@ -21,6 +21,8 @@
 *.snm
 *.vrb
 _bookdown_files/
+thesis_cache/
+thesis_files/
 docs/
 .DS_Store
 Thumbs.db

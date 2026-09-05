@@ -29,9 +29,15 @@ Rscript -e "bookdown::preview_chapter('03-chap3.Rmd')"
 Rscript -e "bookdown::clean_book(TRUE)"
 ```
 
-Output lands in `docs/` (`output_dir` in `_bookdown.yml`), as `thesis.pdf`, `thesis.tex` (`keep_tex: yes`), and `index.html`. `delete_merged_file: true` means the concatenated `thesis.Rmd` is removed after each build, so do not look for it.
+Output lands in `docs/` (`output_dir` in `_bookdown.yml`), as `thesis.pdf`, `thesis.tex` (`keep_tex: yes`), and `index.html`. `delete_merged_file: true` means the concatenated `thesis.Rmd` is removed after each build, so do not look for it. A build also leaves `thesis_cache/` and `thesis_files/` in the project root; both are ignored.
 
-Requires XeLaTeX (`latex_engine: xelatex`) plus the packages `template.tex` loads, and R packages `bookdown`, `dplyr`, `ggplot2`, `knitr`, `devtools`, `git2r`, and `huskydown` (installed from GitHub, unpinned, by setup chunks in `index.Rmd` and `03-chap3.Rmd`).
+**`Rscript` needs pandoc on `PATH`, or `RSTUDIO_PANDOC` pointing at it.** RStudio and Positron set that themselves; a bare shell does not, and the build dies with "pandoc version 2.8 or higher is required". On this machine:
+
+```powershell
+$env:RSTUDIO_PANDOC="C:\Program Files\Positron\resources\app\quarto\bin\tools"
+```
+
+Packages come from `renv` (`renv.lock`, 112 packages, R 4.6.1). `renv::restore()` sets up a fresh clone; `.Rprofile` activates the project library automatically. huskydown is pinned to 0.0.5 (commit `addb48e`) by tarball URL in the lock and by ref in the `index.Rmd` and `03-chap3.Rmd` setup chunks. Also requires XeLaTeX (`latex_engine: xelatex`) plus the packages `template.tex` loads.
 
 ## How the pieces connect
 
@@ -47,13 +53,13 @@ Chapters are ordered by filename prefix: `01-` through `05-` are content, `98-co
 
 - **YAML fields only work if `template.tex` references them.** `location:` is present in `index.Rmd` but has no `$location$` placeholder, so it is inert. Likewise `lot: true` / `lof: true` do nothing here: `template.tex` calls `\listoffigures` and `\listoftables` unconditionally.
 - **Degree type is a LaTeX class option, not YAML.** `nuthesis.cls` defaults to `double,electronic,phd`; `template.tex:2` overrides with `\documentclass[print]{nuthesis}`. A master's thesis needs `ms` or `ma` in that option list (which sets doctype, degree name, and abbreviation together). `print` adds a binding offset; `electronic` does not.
-- **Citations go through pandoc-citeproc, not BibTeX.** `bibliography: bib/thesis.bib` and `csl: bib/apa.csl` in `index.Rmd` drive everything; `99-references.Rmd` only positions the `# References` heading and its hanging-indent LaTeX. `template.tex` still loads `natbib` (line 103) alongside the CSL machinery, which is a latent conflict.
+- **Citations go through pandoc citeproc, not BibTeX.** `bibliography: bib/thesis.bib` and `csl: bib/apa.csl` in `index.Rmd` drive everything; `99-references.Rmd` only positions the `# References` heading and its hanging-indent LaTeX. `template.tex` carries the citeproc preamble (`\citeproc`, the list-based `CSLReferences`, the `\CSL*` helpers) copied from what pandoc 3.10 generates - if you upgrade pandoc and the bibliography breaks, re-lift that block from `pandoc -s --citeproc`. **Do not load `natbib`**: it rejects the citeproc bibliography outright.
 - **Figures live in `figure/`** and are inserted with `include_graphics(path = "figure/x.png")`. Cross-references use the chunk label: a chunk named `unllogo` is referenced as `\@ref(fig:unllogo)`.
 - **`docs/` and `_bookdown_files/` are ignored, not tracked.** Upstream committed both; this fork untracked them. Their blobs are still in this repository's history, so `git checkout c8d3d6d -- docs` recovers the last upstream build if you need it.
 
 ## Repo state
 
-`MAINTENANCE.md` holds the open issues and deferred decisions: the unpinned huskydown dependency, the missing `formatR`, the `natbib`/CSL conflict, unused LaTeX packages, the `nuthesis.cls` license ambiguity, inert YAML fields, the 5.4 MB demo dataset, and the dead links that need prose rewrites rather than relinking. Read it before starting work that touches those areas.
+`MAINTENANCE.md` holds the open issues and deferred decisions: the `nuthesis.cls` licensing tangle and missing `LICENSE`, the `lineno` opt-in, inert YAML fields, the 5.27 MB demo dataset, the dead links that need prose rewrites rather than relinking, and the not-yet-installed agent constitution. Read it before starting work that touches those areas.
 
 `origin` is the `amelia-m` fork; `upstream` is `near-center-unl/UNL-thesisdown-template`. The local default branch is `main`, which still tracks `origin/master`.
 
