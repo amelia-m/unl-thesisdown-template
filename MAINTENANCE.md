@@ -61,6 +61,48 @@ Open decisions:
 deliberately: removing it would turn uncommenting that line into an undefined
 control sequence. Remove both together, or leave both.
 
+**Adding a package means editing `template.tex`.** `index.Rmd:35` carries a
+commented-out `#header-includes:` / `#- \usepackage{tikz}`, but `template.tex`
+has no `$header-includes$` placeholder, so uncommenting that YAML would have no
+effect. Put the `\usepackage` line in `template.tex` instead, or add the
+placeholder first.
+
+### Packages removed in 3d10734, and when to put them back
+
+None of these were ever used in this repository - searching the full history
+for their macros (`\todo{`, `\missingfigure`, `lstlisting`, `\lstset`,
+`\dirtree`, `\cancel{`, `\cancelto`, `\bcancel`, `\xcancel`) returns nothing in
+any commit. They arrived with the preamble inherited from huskydown, which took
+it from ucbthesis and suchow/Dissertate. Each is worth re-adding if the
+specific need appears.
+
+**`todonotes`** - draft annotation. `\todo{fix this}` puts a margin note,
+`\missingfigure{}` a placeholder box, and `\listoftodos` an index of everything
+outstanding. Genuinely useful while a thesis is in progress with an adviser,
+and the `colorinlistoftodos` option that was configured here colours that
+index. Cost: it pulls the whole PGF/TikZ stack, which was 22 of the 22 support
+files the removal saved and most of the compile-time win. Worth re-adding
+during drafting and removing before submission.
+
+**`listings`** - typesets source code from a file or a verbatim block, with
+line numbers, captions and language-aware highlighting. Relevant if an appendix
+ships whole scripts via `\lstinputlisting{analysis.R}`, which keeps the file on
+disk rather than pasting it into the `.Rmd`. Not needed for ordinary knitr
+chunks: those render through pandoc's skylighting `Shaded`/`Highlighting`
+macros on top of `fancyvrb`, which `preamble.tex` already restyles. Re-add it
+only alongside pandoc's `--listings`, and check that `preamble.tex`'s `Shaded`
+redefinition still applies.
+
+**`dirtree`** - draws an indented directory tree from a simple
+`\dirtree{.1 project/. .2 data/.}` description. Fits a reproducible-research
+appendix documenting the repository or data layout, which is a common ask in
+UNL statistics theses. No dependencies of note, so cheap to re-add.
+
+**`cancel`** - strike-through in maths: `\cancel{x}`, `\bcancel`, `\xcancel`,
+and `\cancelto{0}{x}` for showing terms dropping out of a derivation. Useful in
+a methods chapter that walks through algebra. Also cheap. Note `enumerate`
+shared its `\usepackage` line and was kept.
+
 ## Inert configuration
 
 `index.Rmd` declares YAML fields that nothing consumes:
