@@ -21,5 +21,6 @@
 *.snm
 *.vrb
 _bookdown_files/
+docs/
 .DS_Store
 Thumbs.db
