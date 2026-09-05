@@ -155,6 +155,39 @@ a relink:
 College. They are meant to be replaced by a real thesis, so their wording is
 not documentation of this template.
 
+## Not yet verified
+
+**The gitbook HTML format has never been built in this fork.** Only
+`bookdown::pdf_book` was exercised (verified 2026-09-04: `docs/thesis.pdf`,
+zero LaTeX errors). `huskydown::thesis_gitbook` is still declared in
+`index.Rmd`, uses `style.css`, and is the one thing that keeps the huskydown
+dependency necessary. Build it before trusting it:
+
+    Rscript -e "bookdown::render_book('index.Rmd', output_format = 'huskydown::thesis_gitbook')"
+
+The two commented-out formats in `index.Rmd` (`huskydown::thesis_word`,
+`huskydown::thesis_epub`) are likewise untested.
+
+**LaTeX prerequisites are not documented anywhere but here.** A fresh MiKTeX
+install did not have `setspace`, `memoir` or `koma-script` (needed for
+`scrtime`), and those had to be pulled in on the fly before `nuthesis.cls`
+would compile. A machine with TinyTeX rather than MiKTeX will need the
+equivalent `tinytex::tlmgr_install()` calls. Worth capturing as an explicit
+list in the README once someone has done a clean-machine build.
+
+## Remotes and branches
+
+`origin` is `amelia-m/unl-thesisdown-template`; `upstream` is
+`near-center-unl/UNL-thesisdown-template`, which is itself a March 2026 fork
+with no commits of its own. The repository that actually holds the project's
+history is `unl-statistics/UNL-thesisdown-template`. Consider repointing
+`upstream` there, so fetches pick up real changes rather than a stale mirror.
+
+The local default branch was renamed `master` -> `main`, but it still tracks
+`origin/master`, and the remote's default branch is still `master`. Renaming
+the remote branch and moving GitHub's default pointer needs doing in the GitHub
+UI (or with a push plus a settings change), which has not been authorized.
+
 ## Repository hygiene
 
 Build output was untracked in this fork: `docs/` and `_bookdown_files/` were
