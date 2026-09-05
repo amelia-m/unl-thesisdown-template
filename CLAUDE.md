@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+@CONSTITUTION.md
+
+Baseline operating principles come from the imported Clanker Constitution above; `AGENTS.md` states how it, this file, and `MAINTENANCE.md` fit together. Direct instructions from the user override both.
+
 ## What this is
 
 A bookdown template for University of Nebraska-Lincoln theses and dissertations. It is a document, not a package: there is no `DESCRIPTION`, no test suite, and no build script. Output is a PDF (and optionally gitbook HTML) rendered from `.Rmd` chapters through pandoc into a LaTeX class that enforces UNL Graduate Studies formatting.

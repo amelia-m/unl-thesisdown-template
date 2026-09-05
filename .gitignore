@@ -26,3 +26,4 @@ thesis_files/
 docs/
 .DS_Store
 Thumbs.db
+.claude/settings.local.json
