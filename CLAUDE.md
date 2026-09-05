@@ -49,10 +49,12 @@ Chapters are ordered by filename prefix: `01-` through `05-` are content, `98-co
 - **Degree type is a LaTeX class option, not YAML.** `nuthesis.cls` defaults to `double,electronic,phd`; `template.tex:2` overrides with `\documentclass[print]{nuthesis}`. A master's thesis needs `ms` or `ma` in that option list (which sets doctype, degree name, and abbreviation together). `print` adds a binding offset; `electronic` does not.
 - **Citations go through pandoc-citeproc, not BibTeX.** `bibliography: bib/thesis.bib` and `csl: bib/apa.csl` in `index.Rmd` drive everything; `99-references.Rmd` only positions the `# References` heading and its hanging-indent LaTeX. `template.tex` still loads `natbib` (line 103) alongside the CSL machinery, which is a latent conflict.
 - **Figures live in `figure/`** and are inserted with `include_graphics(path = "figure/x.png")`. Cross-references use the chunk label: a chunk named `unllogo` is referenced as `\@ref(fig:unllogo)`.
-- **`docs/` and `_bookdown_files/` are tracked in git** despite being build output, so most builds produce a large diff of generated files.
+- **`docs/` and `_bookdown_files/` are ignored, not tracked.** Upstream committed both; this fork untracked them. Their blobs are still in this repository's history, so `git checkout c8d3d6d -- docs` recovers the last upstream build if you need it.
 
 ## Repo state
 
-`HANDOFF.md` and `codebase-review.patch` in the working tree are review artifacts, not part of the template. The patch is already applied as commit `0d9ed42`. `HANDOFF.md` lists the structural items deliberately left open (the unpinned huskydown dependency, tracked build output, license ambiguity, `natbib`, unused LaTeX packages, the 5.3 MB `data/flights.csv` demo dataset).
+`MAINTENANCE.md` holds the open issues and deferred decisions: the unpinned huskydown dependency, the missing `formatR`, the `natbib`/CSL conflict, unused LaTeX packages, the `nuthesis.cls` license ambiguity, inert YAML fields, the 5.4 MB demo dataset, and the dead links that need prose rewrites rather than relinking. Read it before starting work that touches those areas.
+
+`origin` is the `amelia-m` fork; `upstream` is `near-center-unl/UNL-thesisdown-template`. The local default branch is `main`, which still tracks `origin/master`.
 
 Sample content in `01-chap1.Rmd` through `05-appendix.Rmd` is template documentation showing how to use bookdown, inherited from huskydown and Reed College. It is meant to be replaced by a real thesis, so treat its prose as example text rather than repository documentation.
