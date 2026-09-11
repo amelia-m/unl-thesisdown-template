@@ -1,0 +1,391 @@
+From 5ad8b3d17ff8973cfd9a3bc982cec27b0f62e963 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Wed, 2 Sep 2026 23:59:18 +0000
+Subject: [PATCH] Fix bugs, typos, and inconsistencies across the template
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Bugs fixed:
+- 03-chap3.Rmd: require(ggplot2) checked twice; second branch now
+  correctly checks require(bookdown) before installing bookdown
+- 03-chap3.Rmd: chunk options warnings/messages (invalid) changed to
+  warning/message (correct knitr option names)
+
+UW→UNL identity fixes:
+- 03-chap3.Rmd: uwlogo→unllogo chunk label, UW logo→UNL logo text
+- 03-chap3.Rmd: contact link now points to UNL-thesisdown-template issues
+- 98-colophon.Rmd: rewritten to reference UNL/nuthesis.cls instead of
+  University of Washington, removed xxx placeholders
+- template.tex: header comment updated from UWThesis to nuthesis.cls
+
+Documentation fixes:
+- README.md: exctract→extract, Debuging→Debugging, R version 3.6.3→4.0.0,
+  _book/thesis.pdf→docs/thesis.pdf, removed note-to-self
+- 03-chap3.Rmd: pacakge→package
+- 05-appendix.Rmd: readibility→readability
+
+Code quality:
+- All install.packages repos URLs: http://cran.rstudio.com→https://cloud.r-project.org
+- index.Rmd: tidy = T→tidy = TRUE
+- style.css: added missing semicolon
+- preamble.tex: removed duplicate URL in comment
+- template.tex: removed duplicate \usepackage{graphicx}, dead
+  \bibliography{./references} and \bibliographystyle{abbrv} lines
+
+Bibliography cleanup:
+- bib/thesis.bib: removed fake/test entries (angel2001, angel2002a,
+  goochandgooch2001a) and stale JabRef header
+- 99-references.Rmd: removed nocite block forcing fake entries; replaced
+  with commented-out example showing the pattern
+
+.gitignore improvements:
+- Added *.aux, *.bbl, *.blg, *.fls, *.fdb_latexmk, *.out, *.xdv,
+  *.nav, *.snm, *.vrb, _bookdown_files/, .DS_Store, Thumbs.db
+
+Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
+---
+ .gitignore        | 13 +++++++++++++
+ 01-chap1.Rmd      |  2 +-
+ 03-chap3.Rmd      | 22 +++++++++++-----------
+ 05-appendix.Rmd   |  2 +-
+ 98-colophon.Rmd   | 15 ++++++---------
+ 99-references.Rmd | 11 +++++------
+ README.md         |  8 ++++----
+ bib/thesis.bib    | 42 ++----------------------------------------
+ index.Rmd         |  4 ++--
+ preamble.tex      |  2 +-
+ style.css         |  2 +-
+ template.tex      |  7 +------
+ 12 files changed, 48 insertions(+), 82 deletions(-)
+
+diff --git a/.gitignore b/.gitignore
+index cc92338..d3f56f1 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -10,3 +10,16 @@
+ *.synctex.gz
+ *.toc
+ *.log
++*.aux
++*.bbl
++*.blg
++*.fls
++*.fdb_latexmk
++*.out
++*.xdv
++*.nav
++*.snm
++*.vrb
++_bookdown_files/
++.DS_Store
++Thumbs.db
+diff --git a/01-chap1.Rmd b/01-chap1.Rmd
+index 5fb00ae..9e85cdb 100644
+--- a/01-chap1.Rmd
++++ b/01-chap1.Rmd
+@@ -117,7 +117,7 @@ new.pkg <- pkg[!(pkg %in% installed.packages())]
+ # If there are any packages in the list that aren't installed,
+ # install them
+ if (length(new.pkg))
+-  install.packages(new.pkg, repos = "http://cran.rstudio.com")
++  install.packages(new.pkg, repos = "https://cloud.r-project.org")
+ # Load packages (huskydown will load all of the packages as well)
+ library(huskydown)
+ ```
+diff --git a/03-chap3.Rmd b/03-chap3.Rmd
+index 0b6e7d8..0b1f153 100644
+--- a/03-chap3.Rmd
++++ b/03-chap3.Rmd
+@@ -4,13 +4,13 @@
+ # the template files for the thesis and also two functions
+ # used for labeling and referencing
+ if(!require(devtools))
+-  install.packages("devtools", repos = "http://cran.rstudio.com")
++  install.packages("devtools", repos = "https://cloud.r-project.org")
+ if(!require(dplyr))
+-    install.packages("dplyr", repos = "http://cran.rstudio.com")
++    install.packages("dplyr", repos = "https://cloud.r-project.org")
+ if(!require(ggplot2))
+-    install.packages("ggplot2", repos = "http://cran.rstudio.com")
+-if(!require(ggplot2))
+-    install.packages("bookdown", repos = "http://cran.rstudio.com")
++    install.packages("ggplot2", repos = "https://cloud.r-project.org")
++if(!require(bookdown))
++    install.packages("bookdown", repos = "https://cloud.r-project.org")
+ if(!require(huskydown)){
+   library(devtools)
+   devtools::install_github("benmarwick/huskydown")
+@@ -24,7 +24,7 @@ flights <- read.csv("data/flights.csv")
+ 
+ ## Tables {#tables}
+ 
+-By far the easiest way to present tables in your thesis is to store the contents of the table in a CSV or Excel file, then read that file in to your R Markdown document as a data frame. Then you can style the table with the `kable` function, or functions in the [kableExtra](https://cran.r-project.org/web/packages/kableExtra/index.html) pacakge. 
++By far the easiest way to present tables in your thesis is to store the contents of the table in a CSV or Excel file, then read that file in to your R Markdown document as a data frame. Then you can style the table with the `kable` function, or functions in the [kableExtra](https://cran.r-project.org/web/packages/kableExtra/index.html) package. 
+ 
+ In addition to the tables that can be automatically generated from a data frame in **R** that you saw in [R Markdown Basics] using the `kable` function, you can also create tables using _pandoc_. (More information is available at <http://pandoc.org/README.html#tables>.)  This might be useful if you don't have values specifically stored in **R**, but you'd like to display them in table form.  Below is an example.  Pay careful attention to the alignment in the table and hyphens to create the rows and columns. Generally I don't recommend this approach of typing the table directly into your R Markdown document. 
+ 
+@@ -64,13 +64,13 @@ If you need a graphic or tabular material to be part of the text, you can just p
+ -->
+ 
+ 
+-In the **R** chunk below, we will load in a picture stored as `uw.png` in our main directory.  We then give it the caption of "UW logo", the label of "uwlogo", and specify that this is a figure.  Make note of the different **R** chunk options that are given in the R Markdown file (not shown in the knitted document).
++In the **R** chunk below, we will load in a picture stored as `unl.png` in our figure directory.  We then give it the caption of "UNL logo", the label of "unllogo", and specify that this is a figure.  Make note of the different **R** chunk options that are given in the R Markdown file (not shown in the knitted document).
+ 
+-```{r uwlogo, fig.cap="logo"}
++```{r unllogo, fig.cap="UNL logo"}
+ include_graphics(path = "figure/unl.png")
+ ```
+ 
+-Here is a reference to the UW logo: Figure \@ref(fig:uwlogo).  Note the use of the `fig:` code here.  By naming the **R** chunk that contains the figure, we can then reference that figure later as done in the first sentence here.  We can also specify the caption for the figure via the R chunk option `fig.cap`.
++Here is a reference to the UNL logo: Figure \@ref(fig:unllogo).  Note the use of the `fig:` code here.  By naming the **R** chunk that contains the figure, we can then reference that figure later as done in the first sentence here.  We can also specify the caption for the figure via the R chunk option `fig.cap`.
+ 
+ \clearpage 
+ 
+@@ -78,7 +78,7 @@ Here is a reference to the UW logo: Figure \@ref(fig:uwlogo).  Note the use of t
+ 
+ Below we will investigate how to save the output of an **R** plot and label it in a way similar to that done above.  Recall the `flights` dataset from Chapter \@ref(rmd-basics).  (Note that we've shown a different way to reference a section or chapter here.)  We will next explore a bar graph with the mean flight departure delays by airline from Portland for 2014.  Note also the use of the `scale` parameter which is discussed on the next page.
+ 
+-```{r delaysboxplot, warnings=FALSE, messages=FALSE, fig.cap="Mean Delays by Airline", fig.width=6}
++```{r delaysboxplot, warning=FALSE, message=FALSE, fig.cap="Mean Delays by Airline", fig.width=6}
+ flights %>% group_by(carrier) %>%
+   summarize(mean_dep_delay = mean(dep_delay)) %>%
+   ggplot(aes(x = carrier, y = mean_dep_delay)) +
+@@ -151,5 +151,5 @@ If you look at the YAML header at the top of the main .Rmd file you can see that
+ 
+ ## Anything else?
+ 
+-If you'd like to see examples of other things in this template, please [contact us](https://github.com/benmarwick/huskydown/issues/new) (email <bmarwick@uw.edu>) with your suggestions. We love to see people using _R Markdown_ for their theses, and are happy to help.
++If you'd like to see examples of other things in this template, please [contact us](https://github.com/near-center-unl/UNL-thesisdown-template/issues/new) with your suggestions. We love to see people using _R Markdown_ for their theses, and are happy to help.
+ 
+diff --git a/05-appendix.Rmd b/05-appendix.Rmd
+index c57f9ff..408350c 100644
+--- a/05-appendix.Rmd
++++ b/05-appendix.Rmd
+@@ -9,7 +9,7 @@ If you feel it necessary to include an appendix, it goes here.
+ 
+ # The First Appendix
+ 
+-This first appendix includes all of the R chunks of code that were hidden throughout the document (using the `include = FALSE` chunk tag) to help with readibility and/or setup.
++This first appendix includes all of the R chunks of code that were hidden throughout the document (using the `include = FALSE` chunk tag) to help with readability and/or setup.
+ 
+ **In the main Rmd file**
+ 
+diff --git a/98-colophon.Rmd b/98-colophon.Rmd
+index a9fbd58..4adbf78 100644
+--- a/98-colophon.Rmd
++++ b/98-colophon.Rmd
+@@ -1,12 +1,10 @@
+ # Colophon {-}
+ 
+-This document is set in [EB Garamond](https://github.com/georgd/EB-Garamond), [Source Code Pro](https://github.com/adobe-fonts/source-code-pro/) and [Lato](http://www.latofonts.com/lato-free-fonts/). The body text is set at 11pt with $\familydefault$. 
++This document is set in [EB Garamond](https://github.com/georgd/EB-Garamond), [Source Code Pro](https://github.com/adobe-fonts/source-code-pro/) and [Lato](http://www.latofonts.com/lato-free-fonts/). The body text is set at 11pt with $\familydefault$.
+ 
+-It was written in R Markdown and $\LaTeX$, and rendered into PDF using [huskydown](https://github.com/benmarwick/huskydown) and [bookdown](https://github.com/rstudio/bookdown). 
++It was written in R Markdown and $\LaTeX$, and rendered into PDF using [bookdown](https://github.com/rstudio/bookdown).
+ 
+-This document was typeset using the XeTeX typesetting system, and the [University of Washington Thesis class](http://staff.washington.edu/fox/tex/) class created by Jim Fox. Under the hood, the [University of Washington Thesis LaTeX template](https://github.com/UWIT-IAM/UWThesis) is used to ensure that documents conform precisely to submission standards. Other elements of the document formatting source code have been taken from the [Latex, Knitr, and RMarkdown templates for UC Berkeley's graduate thesis](https://github.com/stevenpollack/ucbthesis), and [Dissertate: a LaTeX dissertation template to support the production and typesetting of a PhD dissertation at Harvard, Princeton, and NYU](https://github.com/suchow/Dissertate)
+-
+-The source files for this thesis, along with all the data files, have been organised into an R package, xxx, which is available at https://github.com/xxx/xxx. A hard copy of the thesis can be found in the University of Washington library.
++This document was typeset using the XeTeX typesetting system and the University of Nebraska thesis class (`nuthesis.cls`). The template is maintained at <https://github.com/near-center-unl/UNL-thesisdown-template>.
+ 
+ This version of the thesis was generated on `r Sys.time()`. The repository is currently at this commit:
+ 
+@@ -15,9 +13,9 @@ This version of the thesis was generated on `r Sys.time()`. The repository is cu
+ # if you're not using Travis-CI, then eval=TRUE will be fine
+ library(git2r)
+ if ( in_repository() ) {
+-       summary(commits()[[1]]) 
+-} else { 
+-       message("We are not in a git repository") 
++       summary(commits()[[1]])
++} else {
++       message("We are not in a git repository")
+ }
+ ```
+ 
+@@ -26,4 +24,3 @@ The computational environment that was used to generate this version is as follo
+ ```{r echo = FALSE}
+ devtools::session_info()
+ ```
+-
+diff --git a/99-references.Rmd b/99-references.Rmd
+index 0562a0b..3ffda1f 100644
+--- a/99-references.Rmd
++++ b/99-references.Rmd
+@@ -29,12 +29,11 @@ To create a hanging indent and spacing between entries.  These three lines may n
+ 
+ 
+ <!--
+-This is just for testing with more citations for the bibliography at the end.  Add other entries into the list here if you'd like them to appear in the bibliography even if they weren't explicitly cited in the document.
+--->
++If you'd like entries to appear in the bibliography even if they weren't
++explicitly cited in the document, add them to a nocite block like this:
+ 
+ ---
+-nocite: | 
+-  @angel2000, @angel2001, @angel2002a
++nocite: |
++  @citekey1, @citekey2
+ ...
+-
+-
++-->
+diff --git a/README.md b/README.md
+index 2fb83c4..34c2454 100644
+--- a/README.md
++++ b/README.md
+@@ -5,12 +5,12 @@
+ Template for writing your UNL thesis with bookdown.
+ 
+ **To Use**
+-1. Fork this repository to a new Rproject hosted on your computer or download and exctract the repository as a .zip file and create a new Rproject within the folder.
++1. Fork this repository to a new Rproject hosted on your computer or download and extract the repository as a .zip file and create a new Rproject within the folder.
+ 2. In RStudio, in the Environment/Git window pane, click on the **Build** tab. Then **Build Book.** This will take some time, especially for the first build. Let it go!
+-3. Your thesis document can be found in at **_book/thesis.pdf**.
++3. Your thesis document can be found at **docs/thesis.pdf**.
+ 
+-**Debuging Tips**
+-+ Make sure your R/RStudio is updated (>= version 3.6.3). When was the last time this was updated?
++**Debugging Tips**
+++ Make sure your R/RStudio is updated (>= version 4.0.0).
+ + Make sure you have latex/MikTex on your computer. Can you knit a pdf?
+ + You may need to follow the initial setup instructions at https://github.com/benmarwick/huskydown.
+ 
+diff --git a/bib/thesis.bib b/bib/thesis.bib
+index 11140f8..59e76ca 100644
+--- a/bib/thesis.bib
++++ b/bib/thesis.bib
+@@ -1,33 +1,5 @@
+-This file was created with JabRef 2.2.
+-Encoding: MacRoman
+-
+-@BOOK{angel2000,
+-  title = {Interactive Computer Graphics : A Top-Down Approach with OpenGL},
+-  publisher = {Addison Wesley Longman},
+-  year = {2000},
+-  author = {Edward Angel},
+-  address = {Boston, MA},
+-  isbn = {0-201-38597-X}
+-}
+-
+-@BOOK{angel2001,
+-  title = {Batch-file Computer Graphics : A Bottom-Up Approach with QuickTime},
+-  publisher = {Wesley Addison Longman},
+-  year = {2001},
+-  author = {Edward Angel},
+-  address = {Boston, MA},
+-  isbn = {0-201-38597-X}
+-}
+-
+-@BOOK{angel2002a,
+-  title = {test second book by angel},
+-  publisher = {Wesley Addison Longman},
+-  year = {2001},
+-  author = {Edward Angel},
+-  address = {Boston, MA},
+-  isbn = {0-201-38597-X}
+-}
+-
++% Sample bibliography for UNL thesis template.
++% Replace these entries with your own references.
+ 
+ @ARTICLE{deussen2000,
+   author = {Oliver Deussen and Thomas Strothotte},
+@@ -60,16 +32,6 @@ Encoding: MacRoman
+   isbn = {1-56881-133-0}
+ }
+ 
+-@BOOK{goochandgooch2001a,
+-  title = {Test second book by gooches},
+-  publisher = {A K Peters},
+-  year = {2001},
+-  author = {Bruce Gooch and Amy Gooch},
+-  address = {Natick, Massachusetts},
+-  isbn = {1-56881-133-0}
+-}
+-
+-
+ @ARTICLE{hertzmann2000,
+   author = {Aaron Hertzmann and Dennis Zorin},
+   title = {Illustrating Smooth Surfaces},
+diff --git a/index.Rmd b/index.Rmd
+index 1629d86..b3ca6d5 100644
+--- a/index.Rmd
++++ b/index.Rmd
+@@ -51,7 +51,7 @@ options(width = 60)
+ knitr::opts_chunk$set(
+   fig.width = 6, fig.height = 4, 
+   out.width = "\\linewidth", dpi = 300, 
+-  tidy = T, tidy.opts=list(width.cutoff=45)
++  tidy = TRUE, tidy.opts=list(width.cutoff=45)
+ )
+ ```
+ 
+@@ -61,7 +61,7 @@ knitr::opts_chunk$set(
+ # the template files for the thesis.
+ if(!require(devtools))
+   install.packages("devtools", 
+-                   repos = "http://cran.rstudio.com")
++                   repos = "https://cloud.r-project.org")
+ if(!require(huskydown))
+   devtools::install_github(
+     "benmarwick/huskydown"
+diff --git a/preamble.tex b/preamble.tex
+index 39fd6fa..a0611dd 100644
+--- a/preamble.tex
++++ b/preamble.tex
+@@ -10,7 +10,7 @@
+ 
+ 
+ %  --- Code chunk font size -----------------------------------------------
+-% https://stackoverflow.com/questions/38323331/code-chunk-font-size-in-beamer-with-knitr-and-latexhttps://stackoverflow.com/questions/38323331/code-chunk-font-size-in-beamer-with-knitr-and-latex
++% https://stackoverflow.com/questions/38323331/code-chunk-font-size-in-beamer-with-knitr-and-latex
+ 
+ %% change fontsize of R code
+ \let\oldShaded\Shaded
+diff --git a/style.css b/style.css
+index a45a32d..5fc7b16 100644
+--- a/style.css
++++ b/style.css
+@@ -6,7 +6,7 @@ code.r{
+   font-size: 10px;
+ }
+ pre {
+-  font-size: 10px
++  font-size: 10px;
+ }
+ pre code {
+   white-space: pre-wrap;
+diff --git a/template.tex b/template.tex
+index 06b3957..e51ba1c 100644
+--- a/template.tex
++++ b/template.tex
+@@ -1,4 +1,4 @@
+-% From https://github.com/UWIT-IAM/UWThesis
++% UNL thesis template using nuthesis.cls
+ \documentclass[print]{nuthesis}
+ \usepackage{amssymb, amsthm, amsmath, amsfonts}
+ \usepackage{wasysym}
+@@ -60,8 +60,6 @@ $endif$
+ \usepackage{longtable}
+ 
+ 
+-\usepackage{graphicx}
+-
+ 
+ % Double spacing, if you want it.
+ \def\dsp{\def\baselinestretch{2.0}\large\normalsize}
+@@ -242,9 +240,6 @@ $body$
+ %% BibTeX is your friend
+ 
+ % \bibliographystyle{alpha}  % or use  abbrv to abbreviate first names and use numerical indices
+-\bibliographystyle{abbrv}  % or use  abbrv to abbreviate first names and use numerical indices
+-%% Add your BibTex file here (don't include the .bib)
+-\bibliography{./references}
+ 
+ 
+ 
+-- 
+2.43.0
+
